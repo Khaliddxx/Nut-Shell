@@ -1,0 +1,40 @@
+*************************************Functionalities:
+
+1. Description of data structures
+2. Non-trivial algorithms and formulas
+3. Description of each function including it's purpose, inputs, outputs and assumptions.
+
+
+1. exit -> exit or CTRL+D
+    - Use exit()
+
+2. Default dir,ch -> chdir() || To know current -> getenv()
+
+3. no args -> ls, ps, pwd ... etc.
+    - use fork(), wait(), execvp()
+
+4. commands with args (same mechanism in 3) (pass arguments to child process)
+    - ls -l *.txt
+    - ps -ef
+    - cat /etc/hosts
+
+
+*************************************Design
+
+- Enter command
+- Parse it: break it into individual arguments
+- Check for special pipe characters
+- Check for built in commands
+- Handle pipes
+- Fork children then calling execvp
+- Ask for next input after printing current directory
+
+The execution function was broken into 2 parts: 
+1/ Executing single and parsed arguments
+2/ Executing piped commands
+
+The function 'processLine()' is introduced where it checks whether the command is piped or not. If it is piped, the function buildPipedArgs() returns 1, as using an if condition statement would determine if the command is piped or not. If it is, the arguments then get seperated through an strPiped array, which handles the output of the first process as a write-only mode to be read by the second part of the pipe as an input (read only). 
+
+UPDATE 10/3/2020 3:00 A.M.: There seems to be an issue with the shell as a whole after trying to implement this step.
+
+
